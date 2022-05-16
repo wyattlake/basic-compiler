@@ -8,6 +8,7 @@ import           Data.List
 import           Lexer
 import           System.Environment
 import           Token
+import              Parser
 
 main :: IO ()
 main = do
@@ -22,7 +23,7 @@ main = do
                 Left  error -> putStrLn $ "Error: " ++ show error
                 Right file  -> do
                     putStrLn $ "Compiling " ++ path ++ "..."
-                    case Lexer.lex file "" of
-                        Left  error  -> putStrLn $ "Error: " ++ show error
+                    case Lexer.lex file "" startPos of
+                        Left  error  -> putStrLn $ "Lex Error: " ++ show error
                         Right tokens -> do
                             print tokens

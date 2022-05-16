@@ -28,6 +28,7 @@ library
       Core
       Lexer
       Lib
+      Parser
       Token
   other-modules:
       Paths_basic_compiler
