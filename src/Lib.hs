@@ -6,6 +6,7 @@ import Control.Exception
 import Core
 import Data.Either (fromRight)
 import Data.List
+import Generator
 import Lexer
 import Parser
 import System.Environment
@@ -27,7 +28,8 @@ compile = do
                     case Lexer.lex file "" startPos of
                         Left error -> putStrLn $ "Lex Error: " ++ show error
                         Right tokens -> do
-                            print tokens
-                            case parseProgram tokens of
+                            case parse tokens of
                                 Left error -> putStrLn $ "Parse Error: " ++ show error
-                                Right program -> print program
+                                Right program -> do
+                                    print program
+                                    writeFile (take (length path - 1) path ++ "s") (generate program)

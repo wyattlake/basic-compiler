@@ -36,12 +36,7 @@ lex (x : xs) string pos =
   if isJust charToken || [x] =~ blankRegex
     then case tokenfromString string pos of
       Just stringToken -> case charToken of
-        Just charToken ->
-          (:) stringToken `fmap` (:) charToken
-            `fmap` Lexer.lex
-              xs
-              ""
-              (nextPos pos x)
+        Just charToken -> (:) stringToken `fmap` (:) charToken `fmap` Lexer.lex xs "" (nextPos pos x)
         Nothing -> (:) stringToken `fmap` Lexer.lex xs "" (nextPos pos x)
       Nothing -> Left $ throwLexError pos string
     else Lexer.lex xs (string ++ [x]) $ nextPos pos x

@@ -1,4 +1,4 @@
-module Parser (ParseError (..), Expr (..), Statement (..), Program (..), parseProgram) where
+module Parser (ParseError (..), Expr (..), Statement (..), Program (..), FnDec (..), parse) where
 
 import Control.Exception (evaluate)
 import Control.Monad
@@ -10,9 +10,9 @@ import Token (
     nullToken,
  )
 
-newtype Expr = Expr Int deriving (Show)
+newtype Expr = Expr {value :: Int} deriving (Show)
 
-newtype Statement = Return Expr deriving (Show)
+newtype Statement = Statement {expr :: Expr} deriving (Show)
 
 data FnDec = FnDec
     { name :: String
@@ -20,7 +20,7 @@ data FnDec = FnDec
     }
     deriving (Show)
 
-newtype Program = Program FnDec deriving (Show)
+newtype Program = Program {fn :: FnDec} deriving (Show)
 
 data ParseError = ParseError
     { token :: Maybe Token
@@ -55,7 +55,7 @@ parseExpr :: TokenStream -> Either ParseError (Expr, TokenStream)
 parseExpr tokens = do
     (token, tokens) <- nextToken tokens
     case tokenType token of
-        IntLiteral -> return (Expr $ read $ fromJust $ tokenData token, tokens)
+        IntLiteral -> return (Expr (read $ fromJust $ tokenData token), tokens)
         _ -> expectedError token IntLiteral
 
 parseStatement :: TokenStream -> Either ParseError (Statement, TokenStream)
@@ -63,7 +63,7 @@ parseStatement tokens = do
     (_, tokens) <- checkTokens [ReturnKeyword] ([], tokens)
     (expr, tokens) <- parseExpr tokens
     (_, tokens) <- checkTokens [Semicolon] ([], tokens)
-    return (Return expr, tokens)
+    return (Statement expr, tokens)
 
 parseFnDec :: TokenStream -> Either ParseError (FnDec, TokenStream)
 parseFnDec tokens = do
@@ -72,7 +72,7 @@ parseFnDec tokens = do
     (_, tokens) <- checkTokens [CloseBrace] ([], tokens)
     return (FnDec (fromJust $ tokenData $ head dataTokens) body, tokens)
 
-parseProgram :: TokenStream -> Either ParseError Program
-parseProgram tokens = do
+parse :: TokenStream -> Either ParseError Program
+parse tokens = do
     (fnDec, tokens) <- parseFnDec tokens
     return $ Program fnDec
