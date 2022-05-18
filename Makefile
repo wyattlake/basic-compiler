@@ -5,10 +5,10 @@ ASSEMBLY_FLAGS = -S -O3 -fno-asynchronous-unwind-tables
 SOURCE = $(wildcard $(SRC)/*.c)
 
 GENERATED = $(patsubst $(SRC)/%.c, $(SRC)/%.s, $(SOURCE))
-TARGET = $(patsubst $(SRC)/%.c, $(SRC)/%, $(SOURCE))
+TARGET = $(patsubst $(SRC)/%.c, $(SRC)/target/%, $(SOURCE))
 
 GCC_GENERATED = $(patsubst $(SRC)/%.c, $(SRC)/gcc_%.s, $(SOURCE))
-GCC_TARGET = $(patsubst $(SRC)/%.c, $(SRC)/gcc_%, $(SOURCE))
+GCC_TARGET = $(patsubst $(SRC)/%.c, $(SRC)/target/gcc_%, $(SOURCE))
 
 $(TARGET): $(SOURCE)
 	stack run $^

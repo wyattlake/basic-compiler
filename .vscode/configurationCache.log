@@ -1,1 +1,0 @@
-{"buildTargets":["clean","examples/asm/test.s","examples/asm/test2.s"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
