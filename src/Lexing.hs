@@ -1,5 +1,5 @@
-module Lexer (
-  Lexer.lex,
+module Lexing (
+  Lexing.lex,
   LexError (..),
 ) where
 
@@ -28,17 +28,17 @@ lex "" string pos =
       Just token -> Right [token]
       Nothing -> Left $ throwLexError pos string
 lex (x : xs) "" pos
-  | [x] =~ blankRegex = Lexer.lex xs "" $ nextPos pos x
+  | [x] =~ blankRegex = Lexing.lex xs "" $ nextPos pos x
   | otherwise = case tokenFromSingleChar x pos of
-    Just token -> (:) token `fmap` Lexer.lex xs "" (nextPos pos x)
-    Nothing -> Lexer.lex xs [x] $ nextPos pos x
+    Just token -> (:) token `fmap` Lexing.lex xs "" (nextPos pos x)
+    Nothing -> Lexing.lex xs [x] $ nextPos pos x
 lex (x : xs) string pos =
   if isJust charToken || [x] =~ blankRegex
     then case tokenfromString string pos of
       Just stringToken -> case charToken of
-        Just charToken -> (:) stringToken `fmap` (:) charToken `fmap` Lexer.lex xs "" (nextPos pos x)
-        Nothing -> (:) stringToken `fmap` Lexer.lex xs "" (nextPos pos x)
+        Just charToken -> (:) stringToken `fmap` (:) charToken `fmap` Lexing.lex xs "" (nextPos pos x)
+        Nothing -> (:) stringToken `fmap` Lexing.lex xs "" (nextPos pos x)
       Nothing -> Left $ throwLexError pos string
-    else Lexer.lex xs (string ++ [x]) $ nextPos pos x
+    else Lexing.lex xs (string ++ [x]) $ nextPos pos x
  where
   charToken = tokenFromSingleChar x pos

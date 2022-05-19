@@ -25,11 +25,16 @@ source-repository head
 
 library
   exposed-modules:
+      AST.Expression
+      AST.Function
+      AST.Node
+      AST.Operators
+      AST.Program
+      AST.Statement
       Core
-      Generator
-      Lexer
+      Lexing
       Lib
-      Parser
+      Parsing
       Token
   other-modules:
       Paths_basic_compiler

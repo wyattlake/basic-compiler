@@ -2,13 +2,13 @@ module Lib (
     compile,
 ) where
 
+import AST.Program
 import Control.Exception
 import Core
 import Data.Either (fromRight)
 import Data.List
-import Generator
-import Lexer
-import Parser
+import Lexing
+import Parsing
 import System.Environment
 import Token
 
@@ -25,7 +25,7 @@ compile = do
                 Left error -> putStrLn $ "Error: " ++ show error
                 Right file -> do
                     putStrLn $ "Compiling " ++ path ++ "..."
-                    case Lexer.lex file "" startPos of
+                    case Lexing.lex file "" startPos of
                         Left error -> putStrLn $ "Lex Error: " ++ show error
                         Right tokens -> do
                             print tokens

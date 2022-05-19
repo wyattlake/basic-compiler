@@ -6,6 +6,7 @@ module Core (
     startPos,
 ) where
 
+-- Position Utilities
 data Pos = Pos
     { line :: Int
     , column :: Int
