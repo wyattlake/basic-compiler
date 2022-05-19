@@ -14,3 +14,5 @@ instance ASTNode Statement where
         (expr, tokens) <- parse tokens
         tokens <- checkTokens [Semicolon] tokens
         return (Statement expr, tokens)
+
+    generate statement = generate (expr statement) ++ "    retq"

@@ -19,3 +19,5 @@ instance ASTNode FnDec where
         (body, tokens) <- parse tokens
         tokens <- checkTokens [CloseBrace] tokens
         return (FnDec (fromJust $ tokenData $ head dataTokens) body, tokens)
+
+    generate fn = "    .globl _" ++ fnName ++ "\n_" ++ fnName ++ ":\n" ++ generate (body fn) where fnName = name fn

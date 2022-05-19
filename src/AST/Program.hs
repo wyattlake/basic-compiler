@@ -13,6 +13,8 @@ instance ASTNode Program where
         (fnDec, tokens) <- parse tokens
         return (Program fnDec, tokens)
 
+    generate program = generate $ fn program
+
 parseProgram :: TokenStream -> Either ParseError Program
 parseProgram tokens = do
     (program, _) <- parse tokens

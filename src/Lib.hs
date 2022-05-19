@@ -2,6 +2,7 @@ module Lib (
     compile,
 ) where
 
+import AST.Node (generate)
 import AST.Program
 import Control.Exception
 import Core
@@ -28,10 +29,8 @@ compile = do
                     case Lexing.lex file "" startPos of
                         Left error -> putStrLn $ "Lex Error: " ++ show error
                         Right tokens -> do
-                            print tokens
                             case parseProgram tokens of
                                 Left error -> putStrLn $ "Parse Error: " ++ show error
                                 Right program -> do
                                     print program
-
---         writeFile (take (length path - 1) path ++ "s") (generate program)
+                                    writeFile (take (length path - 1) path ++ "s") (generate program)
