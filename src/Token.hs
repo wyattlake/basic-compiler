@@ -26,6 +26,10 @@ data TokenEnum
     | Null
     | Ident
     | IntLiteral
+    | Negate
+    | BitwiseComplement
+    | LogicalNegate
+    | TokenValidator [TokenEnum] -- Used for parsing only
     deriving (Show, Eq)
 
 data Token = Token
@@ -55,6 +59,9 @@ tokenFromSingleChar char pos = case char of
     '(' -> Just $ buildTokenOffset OpenParen pos 1 1
     ')' -> Just $ buildTokenOffset CloseParen pos 1 1
     ';' -> Just $ buildTokenOffset Semicolon pos 1 1
+    '-' -> Just $ buildTokenOffset Negate pos 1 1
+    '~' -> Just $ buildTokenOffset BitwiseComplement pos 1 1
+    '!' -> Just $ buildTokenOffset LogicalNegate pos 1 1
     _ -> Nothing
 
 tokenfromString :: String -> Pos -> Maybe Token

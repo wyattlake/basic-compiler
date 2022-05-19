@@ -17,7 +17,7 @@ $(TARGET): $(SOURCE)
 .PHONY : gcc
 gcc:
 	$(CC) $(ASSEMBLY_FLAGS) $(SOURCE) -o $(GCC_GENERATED)
-	$(CC) $(GENERATED) -o $(GCC_TARGET)
+	$(CC) $(GCC_GENERATED) -o $(GCC_TARGET)
 
 .PHONY : clean
 clean:

@@ -28,8 +28,10 @@ compile = do
                     case Lexer.lex file "" startPos of
                         Left error -> putStrLn $ "Lex Error: " ++ show error
                         Right tokens -> do
-                            case parse tokens of
+                            print tokens
+                            case parseProgram tokens of
                                 Left error -> putStrLn $ "Parse Error: " ++ show error
                                 Right program -> do
                                     print program
-                                    writeFile (take (length path - 1) path ++ "s") (generate program)
+
+--         writeFile (take (length path - 1) path ++ "s") (generate program)

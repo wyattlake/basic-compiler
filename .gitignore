@@ -4,3 +4,5 @@
 .vscode/
 
 examples/target/*
+
+.DS_Store
